@@ -5,7 +5,7 @@ protocol NotebookBuilder {
     func produceOperationalSystem()
 }
 
-final class Mac: NotebookBuilder {
+final class MacBuilder: NotebookBuilder {
     func produceHardware() {
         print("Produce hardware for Mac")
     }
@@ -15,7 +15,7 @@ final class Mac: NotebookBuilder {
     }
 }
 
-final class Dell: NotebookBuilder {
+final class DellBuilder: NotebookBuilder {
     func produceHardware() {
         print("Produce hardware for Dell")
     }
@@ -38,10 +38,7 @@ final class Notebook {
     }
 }
 
-let mac = Mac()
+let builder = MacBuilder()
 
-let macComputer = Notebook(builder: mac)
-macComputer.produce()
-
-
-
+let mac = Notebook(builder: builder)
+mac.produce()
