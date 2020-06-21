@@ -4,19 +4,19 @@ protocol Book {
     func read()
 }
 
-class ScienceFiction: Book {
+final class ScienceFiction: Book {
     func read() {
         print("I'm reading a science fiction book")
     }
 }
 
-class Suspense: Book {
+final class Suspense: Book {
     func read() {
         print("I'm reading a suspense book")
     }
 }
 
-class Romance: Book {
+final class Romance: Book {
     func read() {
         print("I'm reading a romance book")
     }
