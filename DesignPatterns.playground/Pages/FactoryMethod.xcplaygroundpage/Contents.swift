@@ -1,3 +1,7 @@
+/*:
+ [< Previous](@previous)           [Home](Introduction)           [Next >](@next)
+*/
+
 // Factory method
 
 protocol Phone {
