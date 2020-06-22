@@ -14,5 +14,5 @@ final class NotificationMannager {
     }
 }
 
-let formatter = NotificationMannager.sharedInstance
-formatter.send()
+let notification = NotificationMannager.sharedInstance
+notification.send()
