@@ -4,45 +4,70 @@
 
 // Builder
 
-protocol NotebookBuilder {
-    func produceHardware()
-    func produceOperationalSystem()
+
+protocol SoftwareDevelopmet {
+    func performRequirementsAnalysis()
+    func createUserExperience()
+    func createLayoutDesign()
+    func develop()
 }
 
-final class MacBuilder: NotebookBuilder {
-    func produceHardware() {
-        print("Produce hardware for Mac")
+final class DeliveredApp: SoftwareDevelopmet {
+    func performRequirementsAnalysis() {
+        print("Performing the requirements analysis for the delivery app")
     }
     
-    func produceOperationalSystem() {
-         print("Produce operational system for Mac")
-    }
-}
-
-final class DellBuilder: NotebookBuilder {
-    func produceHardware() {
-        print("Produce hardware for Dell")
+    func createUserExperience() {
+        print("Creating the user experience for the delivery app")
     }
     
-    func produceOperationalSystem() {
-        print("Produce operational system for Dell")
-    }
-}
-
-final class Notebook {
-    let builder: NotebookBuilder
-    
-    init(builder: NotebookBuilder) {
-        self.builder = builder
+    func createLayoutDesign() {
+        print("Creating the layout design for the delivery app")
     }
     
-    func produce() {
-        builder.produceHardware()
-        builder.produceOperationalSystem()
+    func develop() {
+        print("Developing the code for the delivery app")
     }
 }
 
-let builder = MacBuilder()
+final class FinanceApp: SoftwareDevelopmet {
+    func performRequirementsAnalysis() {
+        print("Performing the requirements analysis for the finance app")
+    }
+    
+    func createUserExperience() {
+        print("Creating the user experience for the finance app")
+    }
+    
+    func createLayoutDesign() {
+        print("Creating the layout design for the finance app")
+    }
+    
+    func develop() {
+        print("Developing the code for the finance app")
+    }
 
-let mac = Notebook(builder: builder)
-mac.produce()
+}
+
+final class SoftwareManager {
+    var software: SoftwareDevelopmet
+    
+    init(software: SoftwareDevelopmet) {
+        self.software = software
+    }
+    
+    func develop() {
+        software.performRequirementsAnalysis()
+        software.createUserExperience()
+        software.createLayoutDesign()
+        software.develop()
+    }
+}
+
+
+let financeApp = FinanceApp()
+let deliveredApp = DeliveredApp()
+
+let softwareManager = SoftwareManager(software: financeApp)
+softwareManager.develop()
+
