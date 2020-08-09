@@ -4,9 +4,13 @@
 
 // Prototype
 
-struct Developer {
-    let languages: [String]
-    
+protocol SoftwareDeveloper {
+    var languages: [String] { get set }
+}
+
+struct Developer: SoftwareDeveloper {
+    var languages: [String]
+        
     func clone() -> Self {
         return .init(languages: languages)
     }

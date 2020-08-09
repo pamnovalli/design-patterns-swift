@@ -4,8 +4,8 @@
 
 // Singleton
 
-final class NotificationMannager {
-    static let sharedInstance = NotificationMannager()
+final class NotificationManager {
+    static let sharedInstance = NotificationManager()
     
     private init() {}
     
@@ -14,5 +14,5 @@ final class NotificationMannager {
     }
 }
 
-let notification = NotificationMannager.sharedInstance
+let notification = NotificationManager.sharedInstance
 notification.send()
