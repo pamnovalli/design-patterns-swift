@@ -2,81 +2,172 @@
  [< Previous](@previous)           [Home](Introduction)           [Next >](@next)
 */
 
-// Abstract Factory
+// 1 - Abstract Factory
+
+protocol ArtisticContentFactory {
+    static func makeBook(model: BookModel) -> Book
+    static func makeMovie(model: MovieModel) -> Movie
+}
+
+// 2 - Concrete Factory
+
+struct ScienceFictionFactory: ArtisticContentFactory {
+    static func makeBook(model: BookModel) -> Book {
+        return ScienceFictionBook(author: model.author, name: model.name)
+    }
+    
+    static func makeMovie(model: MovieModel) -> Movie {
+        return ScienceFictionMovie(director: model.director, name: model.name)
+    }
+}
+
+struct SuspenseFactory: ArtisticContentFactory {
+    static func makeBook(model: BookModel) -> Book {
+        return SuspenseBook(author: model.author, name: model.name)
+    }
+    
+    static func makeMovie(model: MovieModel) -> Movie {
+        return SuspenseMovie(director: model.director, name: model.name)
+    }
+}
+
+// 3 - Abstract product
 
 protocol Book {
+    var author: String { get set }
+    var name: String { get set }
+    
     func read()
 }
 
-final class ScienceFiction: Book {
-    func read() {
-        print("I'm reading a science fiction book")
-    }
-}
-
-final class Suspense: Book {
-    func read() {
-        print("I'm reading a suspense book")
-    }
-}
-
-final class Romance: Book {
-    func read() {
-        print("I'm reading a romance book")
-    }
-}
-
-let suspense = Suspense()
-suspense.read()
-let scienceFiction = ScienceFiction()
-scienceFiction.read()
-let romance = Romance()
-romance.read()
-
-// Factory
-enum BookType {
-    case scienceFiction
-    case suspense
-    case romance
+protocol Movie {
+    var director: String { get set }
+    var name: String { get set }
     
-    var book: Book {
-        switch self {
-        case .scienceFiction:
-            return ScienceFiction()
-        case .suspense:
-            return Suspense()
-        case .romance:
-            return Romance()
+    func watch()
+}
+
+// Model
+
+struct MovieModel {
+    let director: String
+    let name: String
+}
+
+struct BookModel {
+    let author: String
+    let name: String
+}
+
+// 4- Concrete product
+
+final class ScienceFictionBook: Book {
+    var author: String
+    var name: String
+    
+    init(author: String,
+         name: String
+    ) {
+        self.author = author
+        self.name = name
+    }
+    
+    func read() {
+        print("Reading a science fiction book")
+    }
+}
+
+final class ScienceFictionMovie: Movie {
+    var director: String
+    var name: String
+    
+    init(director: String,
+         name: String
+    ) {
+        self.director = director
+        self.name = name
+    }
+    
+    func watch() {
+        print("Watching a science fiction movie")
+    }
+}
+
+final class SuspenseBook: Book {
+    var author: String
+    var name: String
+    
+    init(author: String,
+         name: String
+    ) {
+        self.author = author
+        self.name = name
+    }
+    
+    func read() {
+        print("Reading a suspense book")
+    }
+}
+
+final class SuspenseMovie: Movie {
+    var director: String
+    var name: String
+    
+    init(director: String,
+         name: String
+    ) {
+        self.director = director
+        self.name = name
+    }
+    
+    func watch() {
+        print("Watching a suspense  movie")
+    }
+}
+
+// 5- Client
+
+final class Catalog {
+    private let factory: ArtisticContentFactory.Type
+    private var booksList: [Book] = []
+    private var movieList: [Movie] = []
+    
+    init(factory: ArtisticContentFactory.Type) {
+        self.factory = factory
+    }
+    
+    func addBooks(books: [BookModel]) {
+        for book in books {
+            booksList.append(factory.makeBook(model: book))
+        }
+    }
+    
+    func addMovies(movies: [MovieModel]) {
+        for movie in movies {
+            movieList.append(factory.makeMovie(model: movie))
+        }
+    }
+    
+    func showBooks() {
+        for book in booksList {
+            print(book.name)
+        }
+    }
+    
+    func showMovies() {
+        for movie in movieList {
+            print(movie.name)
         }
     }
 }
 
-let romaceBook = BookType.romance
-romaceBook.book.read()
-let scienceFictionBook = BookType.scienceFiction
-let suspenseBook = BookType.suspense
+let scienceFictionCatalog = Catalog(factory: ScienceFictionFactory.self)
+let suspenseCatalog = Catalog(factory: SuspenseFactory.self)
 
-// Another option
+scienceFictionCatalog.addBooks(books: [.init(author: "Isaac Asimov", name: "I, Robot")])
 
-enum LiteraryGenre {
-    case scienceFiction
-    case suspense
-    case romance
-}
+suspenseCatalog.addBooks(books: [.init(author: "Stephen King", name: "It: A Novel")])
 
-// Factory
-struct BookFactory {
-    static func make(type: LiteraryGenre) -> Book {
-        switch type {
-        case .scienceFiction:
-            return ScienceFiction()
-        case .suspense:
-            return Suspense()
-        case .romance:
-            return Romance()
-        }
-    }
-}
 
-let book = BookFactory.make(type: .scienceFiction)
-book.read()
+scienceFictionCatalog.showBooks()
+suspenseCatalog.showBooks()
