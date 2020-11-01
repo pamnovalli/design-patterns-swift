@@ -1,73 +1,49 @@
 /*:
  [< Previous](@previous)           [Home](Introduction)           [Next >](@next)
 */
+import Foundation
+import UIKit
 
 // Builder
 
+final class NavigationBarBuilder  {
+   private var navigationItem = UINavigationItem()
 
-protocol SoftwareDevelopmet {
-    func performRequirementsAnalysis()
-    func createUserExperience()
-    func createLayoutDesign()
-    func develop()
-}
+     func rightBarButton(_ barButtons: [UIBarButtonItem]) -> NavigationBarBuilder {
+        navigationItem.setRightBarButtonItems(barButtons, animated: true)
 
-final class DeliveredApp: SoftwareDevelopmet {
-    func performRequirementsAnalysis() {
-        print("Performing the requirements analysis for the delivery app")
-    }
-    
-    func createUserExperience() {
-        print("Creating the user experience for the delivery app")
-    }
-    
-    func createLayoutDesign() {
-        print("Creating the layout design for the delivery app")
-    }
-    
-    func develop() {
-        print("Developing the code for the delivery app")
-    }
-}
-
-final class FinanceApp: SoftwareDevelopmet {
-    func performRequirementsAnalysis() {
-        print("Performing the requirements analysis for the finance app")
-    }
-    
-    func createUserExperience() {
-        print("Creating the user experience for the finance app")
-    }
-    
-    func createLayoutDesign() {
-        print("Creating the layout design for the finance app")
-    }
-    
-    func develop() {
-        print("Developing the code for the finance app")
+        return self
     }
 
-}
+    func leftBarButton(_ barButtons: [UIBarButtonItem]) -> NavigationBarBuilder {
+       navigationItem.setLeftBarButtonItems(barButtons, animated: true)
 
-final class SoftwareManager {
-    var software: SoftwareDevelopmet
-    
-    init(software: SoftwareDevelopmet) {
-        self.software = software
+       return self
+   }
+
+    func title(_ title: String) -> NavigationBarBuilder {
+        navigationItem.title = title
+
+        return self
     }
-    
-    func develop() {
-        software.performRequirementsAnalysis()
-        software.createUserExperience()
-        software.createLayoutDesign()
-        software.develop()
+
+    func build() -> UINavigationBar {
+        let navigationBar = UINavigationBar()
+        navigationBar.setItems([navigationItem], animated: false)
+
+        return navigationBar
     }
 }
 
+let navigation1 = NavigationBarBuilder()
+    .title("Title")
+    .rightBarButton([.init(systemItem: .add)])
+    .build()
 
-let financeApp = FinanceApp()
-let deliveredApp = DeliveredApp()
+let navigation2 = NavigationBarBuilder()
+    .leftBarButton([.init(systemItem: .cancel)])
+    .build()
 
-let softwareManager = SoftwareManager(software: financeApp)
-softwareManager.develop()
-
+let navigation3 = NavigationBarBuilder()
+    .title("Title")
+    .build()
